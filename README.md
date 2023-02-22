@@ -11,8 +11,8 @@ This is micro service implementation with three services.
 # Funcnality 
    
    for micro services commounication
-    Rest client
-    Fiegn client
+    -Rest client
+    -Fiegn client
     
    Design Patterns 
      Fault torance and circut breaker using circut breaker
