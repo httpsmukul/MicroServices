@@ -11,10 +11,12 @@ This is micro service implementation with three services.
 # Funcnality 
    
    for micro services commounication
+   
     1. Rest client
     2. Fiegn client
     
    Design Patterns 
+   
     1. Fault torance and circut breaker using circut breaker
     2. Retry Module 
     3. Rate Limiter usring resilience4J
