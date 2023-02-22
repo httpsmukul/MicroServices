@@ -106,10 +106,10 @@ resilience4j:
         timeout-duration: 0s
 
 
-okta:
-  oauth2:
-    issuer: https://dev-49712236.okta.com/oauth2/default
-    audience: api://default
+#okta:
+#  oauth2:
+#    issuer: https://dev-49712236.okta.com/oauth2/default
+#    audience: api://default
 
 # doc https://resilience4j.readme.io/docs/circuitbreaker
 #registerHealthIndicator: true indicates that a health indicator will be registered for this circuit breaker instance.
