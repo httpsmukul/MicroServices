@@ -1,5 +1,5 @@
 # MicroServices
-This is micro service implementation with three services.
+This is micro service implementation with three services
 
 1. User Service
 2. Rating Service 
@@ -15,13 +15,13 @@ This is micro service implementation with three services.
     1. Rest client
     2. Fiegn client
     
-   Design Patterns 
+##   Design Patterns 
    
     1. Fault torance and circut breaker using circut breaker
     2. Retry Module 
     3. Rate Limiter usring resilience4J
      
-   Security 
+##   Security 
    
     - OKTA Auth 
      
