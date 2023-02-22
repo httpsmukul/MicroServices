@@ -1,0 +1,14 @@
+server:
+  port: 8085
+
+spring:
+  application:
+    name: CONFIG-SERVER
+
+# for reading the files from gitHub
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/mukul0000/microservice-config
+          clone-on-start: true

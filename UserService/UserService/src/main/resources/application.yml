@@ -1,0 +1,123 @@
+server:
+  port: 8081
+
+
+
+spring:
+  application:
+    name: USER-SERVICE
+  datasource:
+    url: jdbc:mysql://localhost:3306/micro-userService
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+
+  config:
+    import: optional:configserver:http://localhost:8085   #fetching config file
+
+#    because this service other micro services for that
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: https://dev-49712236.okta.com/oauth2/default
+      client:
+        registration:
+          my-internal-client:
+            provider: okta
+            authorizationGrantType: client_credentials
+            scope: internal
+            client-id: 0oa8eqrakdt6Etof05d7
+            client-secret: JOBej-Wiiufdh3Jj0ayGyqRzc_hEA5w0p-38Digh
+
+        provider:
+          okta:
+            issuer-uri: https://dev-49712236.okta.com/oauth2/default
+
+
+
+
+
+
+#
+#  profiles:
+#    active: dev    #for changing profile form here
+
+
+#eureka:
+#
+#  instance:
+#    hostname: localhost
+#    prefer-ip-address: true
+#  client:
+#    fetch-registry: true
+#    register-with-eureka: true
+#    service-url:
+#      defaultZone: http://localhost:8761/eureka
+#      Eureka is a service registry that allows services to register themselves with a central server, making it easier for other services to discover and communicate with them. In this configuration, the instance section is configuring the application to prefer using the IP address when registering with Eureka, while the client section is configuring the application to fetch the registry and register with Eureka using the default URL of http://localhost:8761/eureka.
+
+
+management:
+  health:
+    circuitbreakers:
+      enabled: true  # we are enable circuitbreakers in health
+  endpoints:
+    web:
+      exposure:
+        include: health
+
+  endpoint:
+    health:
+      show-details: always
+
+
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      ratingHotelBreaker:
+        registerHealthIndicator: true
+        eventConsumerBufferSize: 10
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        automaticTransitionFromOpenToHalfOpenEnabled: true
+        waitDurationInOpenState: 6s
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowSize: 10
+        slidingWindowType: COUNT_BASED
+
+  retry:
+    instances:
+      ratingHotel:
+        max-attempts: 3
+        wait-duration: 5s
+
+  ratelimiter:
+    instances:
+      userRateLimiter:
+        limit-refresh-period: 4s
+        limit-for-period: 2
+        timeout-duration: 0s
+
+
+okta:
+  oauth2:
+    issuer: https://dev-49712236.okta.com/oauth2/default
+    audience: api://default
+
+# doc https://resilience4j.readme.io/docs/circuitbreaker
+#registerHealthIndicator: true indicates that a health indicator will be registered for this circuit breaker instance.
+#eventConsumerBufferSize: 10 specifies the size of the event consumer buffer, which determines how many events can be queued for processing by the circuit breaker.
+#failureRateThreshold: 50 sets the failure rate threshold at which the circuit breaker will trip and stop allowing calls to the service.
+#minimumNumberOfCalls: 5 specifies the minimum number of calls to the service that must be made before the circuit breaker will trip.
+#automaticTransitionFromOpenToHalfOpenEnabled: true enables automatic transition from open to half-open state after the waitDurationInOpenState time has elapsed.
+#waitDurationInOpenState: 6s sets the duration that the circuit breaker will stay open after tripping, during which no requests will be allowed.
+#permittedNumberOfCallsInHalfOpenState: 3 specifies the maximum number of calls allowed in the half-open state, where the circuit breaker will allow a few requests to test if the service has recovered.
+#slidingWindowSize: 10 sets the size of the sliding window used to monitor the service's performance.
+#slidingWindowType: COUNT_BASED specifies the type of sliding window used to monitor the service's performance. In this case, it is a count-based sliding window.

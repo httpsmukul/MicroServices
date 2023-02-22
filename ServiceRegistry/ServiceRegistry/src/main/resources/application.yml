@@ -1,0 +1,9 @@
+server:
+  port: 8761
+eureka:
+  instance:
+    hostname: localhost
+
+  client:
+    register-with-eureka: false # for avoid auto register as a client
+    fetch-registry: false # for avoid fetch registry   ||  ctrl+q for doc
